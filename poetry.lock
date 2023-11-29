@@ -863,6 +863,17 @@ files = [
 tests = ["pytest", "pytest-cov"]
 
 [[package]]
+name = "terminaltables"
+version = "3.1.10"
+description = "Generate simple tables in terminals from a nested list of strings."
+optional = false
+python-versions = ">=2.6"
+files = [
+    {file = "terminaltables-3.1.10-py2.py3-none-any.whl", hash = "sha256:e4fdc4179c9e4aab5f674d80f09d76fa436b96fdc698a8505e0a36bf0804a874"},
+    {file = "terminaltables-3.1.10.tar.gz", hash = "sha256:ba6eca5cb5ba02bba4c9f4f985af80c54ec3dccf94cfcd190154386255e47543"},
+]
+
+[[package]]
 name = "typeguard"
 version = "2.13.3"
 description = "Run-time type checker for Python"
@@ -1032,4 +1043,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.11"
-content-hash = "1ddb5229e34af77994c26f54c0ef16ace424d5946502c2093933c4a0778b7fe7"
+content-hash = "d3a21a935b0bd174922075f5fa3fe846d5ebe2cd82607e9a3ea9b55fb384f334"

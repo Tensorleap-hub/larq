@@ -9,6 +9,7 @@ readme = "README.md"
 python = ">=3.9,<3.11"
 tensorflow = "2.13.0"
 code-loader = "^1.0.18"
+terminaltables = "^3.1.10"
 
 
 [build-system]
