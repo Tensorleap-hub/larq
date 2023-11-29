@@ -48,7 +48,7 @@ def get_responses():
 
     train_labels = np.asarray(keras.utils.to_categorical(train_labels, num_classes))
     val_labels = train_labels[val_indices]
-    train_labels = np.delete(train_labels, val_indices)
+    train_labels = np.delete(train_labels, val_indices, axis=0)
     test_labels = np.asarray(keras.utils.to_categorical(test_labels, num_classes))
 
     train = PreprocessResponse(length=val_images.shape[0], data={'images': train_images[:train_size], 'labels': train_labels[:train_size]})

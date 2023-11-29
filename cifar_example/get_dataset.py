@@ -27,8 +27,9 @@ def get_dataset():
 
     train_labels = np.asarray(keras.utils.to_categorical(train_labels, num_classes))
     val_labels = train_labels[val_indices]
-    train_labels = np.delete(train_labels, val_indices)
+    train_labels = np.delete(train_labels, val_indices, axis=0)
     test_labels = np.asarray(keras.utils.to_categorical(test_labels, num_classes))
+
     return tf.convert_to_tensor(train_images[:train_size]), \
         tf.convert_to_tensor(train_labels[:train_size]), \
         tf.convert_to_tensor(val_images), \

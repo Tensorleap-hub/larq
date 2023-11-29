@@ -28,7 +28,7 @@ if __name__ == '__main__':
         loss="categorical_crossentropy",
         metrics=["accuracy"],
     )
-    train_images, train_labels, val_images, val_labels = get_dataset()
+    train_images, train_labels, val_images, val_labels, _, _ = get_dataset()
 
     checkpoint = ModelCheckpoint(
         f"{root_dir}/model/trained_{model_name}",  # Filepath to save the best model
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     trained_model = model.fit(
         train_images,
         train_labels,
-        batch_size=50,
+        batch_size=64,
         epochs=50,
         validation_data=(val_images, val_labels),
         shuffle=True,
