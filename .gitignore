@@ -110,3 +110,5 @@ venv.bak/
 # Editors
 .vscode/
 .idea/
+.DS_Store
+
