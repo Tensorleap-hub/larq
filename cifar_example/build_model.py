@@ -23,6 +23,7 @@ if quantized:
 else:
     input_quantizer = kernel_quantizer = None
     model_name = 'full_precision_net'
+
 # All quantized layers except the first will use the same options
 kwargs = dict(input_quantizer="ste_sign",
               kernel_quantizer="ste_sign",
