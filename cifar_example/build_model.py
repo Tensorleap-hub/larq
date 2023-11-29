@@ -14,7 +14,7 @@ from larq import (
 import keras
 from larq import layers
 
-quantized = True
+quantized = False
 
 if quantized:
     input_quantizer = 'ste_sign'
@@ -65,11 +65,12 @@ model = keras.models.Sequential([
     keras.layers.BatchNormalization(momentum=0.999, scale=False),
 
     layers.QuantDense(10, **kwargs),
+    keras.layers.Dense(10),
     keras.layers.BatchNormalization(momentum=0.999, scale=False),
     keras.layers.Activation("softmax")
 ])
 
 dummy_input = keras.Input((32, 32, 3))
 model(dummy_input)
-
+model.summary()
 keras.models.save_model(model, f'{model_name}.h5')
