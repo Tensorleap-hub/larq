@@ -42,7 +42,7 @@ if __name__ == '__main__':
         train_images,
         train_labels,
         batch_size=64,
-        epochs=50,
+        epochs=100,
         validation_data=(val_images, val_labels),
         shuffle=True,
         callbacks=[checkpoint]
