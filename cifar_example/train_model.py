@@ -28,7 +28,7 @@ if __name__ == '__main__':
         loss="categorical_crossentropy",
         metrics=["accuracy"],
     )
-    train_images, train_labels, val_images, val_labels, _, _ = get_dataset()
+    train_images, train_labels, val_images, val_labels, test_images, test_labels = get_dataset()
 
     checkpoint = ModelCheckpoint(
         f"{root_dir}/model/trained_{model_name}",  # Filepath to save the best model
@@ -38,12 +38,19 @@ if __name__ == '__main__':
         verbose=1  # Display more information about the saving process
     )
 
-    trained_model = model.fit(
+    model.fit(
         train_images,
         train_labels,
         batch_size=64,
-        epochs=100,
+        epochs=1,
         validation_data=(val_images, val_labels),
         shuffle=True,
         callbacks=[checkpoint]
     )
+
+    best_model = keras.models.load_model(f"{root_dir}/model/trained_{model_name}",
+                                         custom_objects={'quantconv': QuantConv2D,
+                                                         'quantdense': QuantDense})
+    test_loss, test_accuracy = best_model.evaluate(test_images, test_labels)
+
+    print(f'Test Accuracy: {test_accuracy * 100:.2f}%')
