@@ -19,7 +19,7 @@ from get_dataset import get_dataset
 from larq.layers import QuantConv2D, QuantDense
 
 if __name__ == '__main__':
-    model_name = 'full_precision_net.h5'
+    model_name = 'binarized_net.h5'
     root_dir = os.path.dirname(os.getcwd())
     model = keras.models.load_model(f'{root_dir}/model/{model_name}', custom_objects={'quantconv': QuantConv2D,
                                                                                       'quantdense': QuantDense})
@@ -42,7 +42,7 @@ if __name__ == '__main__':
         train_images,
         train_labels,
         batch_size=64,
-        epochs=1,
+        epochs=100,
         validation_data=(val_images, val_labels),
         shuffle=True,
         callbacks=[checkpoint]
