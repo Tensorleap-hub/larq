@@ -12,7 +12,7 @@ from larq import (
     utils,
 )  # needed imports
 import keras
-from larq import layers
+from larq import layers, models
 
 quantized = False
 
@@ -25,16 +25,16 @@ else:
     model_name = 'full_precision_net'
 
 # All quantized layers except the first will use the same options
-kwargs = dict(input_quantizer="ste_sign",
-              kernel_quantizer="ste_sign",
+kwargs = dict(input_quantizer=input_quantizer,
+              kernel_quantizer=kernel_quantizer,
               kernel_constraint="weight_clip",
               use_bias=False)
 
 model = keras.models.Sequential([
     # In the first layer we only quantize the weights and not the input
     layers.QuantConv2D(128, 3,
-                       kernel_quantizer="ste_sign",
-                       kernel_constraint="weight_clip",
+                       kernel_quantizer=input_quantizer,
+                       kernel_constraint=kernel_quantizer,
                        use_bias=False,
                        input_shape=(32, 32, 3)),
     keras.layers.BatchNormalization(momentum=0.999, scale=False),
@@ -65,12 +65,11 @@ model = keras.models.Sequential([
     keras.layers.BatchNormalization(momentum=0.999, scale=False),
 
     layers.QuantDense(10, **kwargs),
-    keras.layers.Dense(10),
     keras.layers.BatchNormalization(momentum=0.999, scale=False),
     keras.layers.Activation("softmax")
 ])
 
 dummy_input = keras.Input((32, 32, 3))
 model(dummy_input)
-model.summary()
+models.summary(model)
 keras.models.save_model(model, f'{model_name}.h5')
