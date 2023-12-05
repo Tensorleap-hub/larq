@@ -20,6 +20,7 @@
       data:
         type: Loss
       id: '35'
+
       inputs:
         prediction:
           - outputKey: feature_map
@@ -30,6 +31,7 @@
           - outputKey: gt
             operation: GroundTruth
             id: '37'
+
       outputs:
         loss:
           - inputKey: '0'
@@ -47,12 +49,14 @@
             operation: CategoricalCrossentropy
             id: '35'
       outputs: {}
+
     - operation: GroundTruth
       data:
         type: GroundTruth
         output_name: gt
         selected: gt
       id: '37'
+
       inputs: {}
       outputs:
         gt:

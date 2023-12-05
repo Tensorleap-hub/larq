@@ -23,7 +23,6 @@ def load_od_config() -> Dict[str, Any]:
         9: "truck"
     }
     config['id_to_name'] = id_to_name
-
     return config
 
 

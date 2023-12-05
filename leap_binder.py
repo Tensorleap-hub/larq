@@ -26,10 +26,6 @@ import keras
 
 np.random.seed(2023)
 
-# QuantDense.kernel_index = 1
-# QuantConv2D.kernel_index = 3
-
-
 # Preprocess Function
 def get_responses():
     num_classes = CONFIG['n_classes']
@@ -77,6 +73,7 @@ def gt_encoder(idx: int, preprocess: PreprocessResponse) -> np.ndarray:
 def get_category_name(idx: int, preprocess: PreprocessResponse) -> str:
     gt_one_hot = gt_encoder(idx, preprocess)
     return CONFIG['id_to_name'].get(np.argmax(gt_one_hot), '')
+
 
 
 def placeholder_loss(y_true, y_pred: tf.Tensor, **kwargs) -> tf.Tensor:
