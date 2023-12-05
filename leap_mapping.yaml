@@ -4,20 +4,23 @@
       data:
         type: Input
         output_name: input
-      id: '25'
+        selected: input
+      id: '34'
       inputs: {}
       outputs:
         input:
+          - inputKey: '0'
+            operation: TFOpLambda
+            name: tf.identity
+            id: '24'
           - inputKey: data
             operation: Visualizer
-            id: '29'
-          - inputKey: '0'
-            operation: CustomLayer
-            id: '23'
+            id: '41'
     - operation: CategoricalCrossentropy
       data:
         type: Loss
-      id: '26'
+      id: '35'
+
       inputs:
         prediction:
           - outputKey: feature_map
@@ -27,58 +30,45 @@
         ground_truth:
           - outputKey: gt
             operation: GroundTruth
-            id: '27'
+            id: '37'
+
       outputs:
         loss:
           - inputKey: '0'
             operation: Adam
-            id: '28'
+            id: '36'
+    - operation: Adam
+      data:
+        type: Optimizer
+        custom_input_keys:
+          - 36-0
+      id: '36'
+      inputs:
+        '0':
+          - outputKey: loss
+            operation: CategoricalCrossentropy
+            id: '35'
+      outputs: {}
+
     - operation: GroundTruth
       data:
         type: GroundTruth
         output_name: gt
         selected: gt
-      id: '27'
+      id: '37'
+
       inputs: {}
       outputs:
         gt:
           - inputKey: ground_truth
             operation: CategoricalCrossentropy
-            id: '26'
+            id: '35'
           - inputKey: ground_truth
             operation: Metric
-            id: '30'
+            id: '38'
           - inputKey: data
             operation: Visualizer
-            id: '32'
-    - operation: Adam
-      data:
-        type: Optimizer
-        custom_input_keys:
-          - 28-0
-      id: '28'
-      inputs:
-        '0':
-          - outputKey: loss
-            operation: CategoricalCrossentropy
-            id: '26'
-      outputs: {}
-    - operation: Visualizer
-      data:
-        type: Visualizer
-        name: Image
-        visualizer_name: Image
-        visualizer_type: Image
-        arg_names:
-          - data
-        user_unique_name: Image
-      id: '29'
-      inputs:
-        data:
-          - outputKey: input
-            operation: Input
-            id: '25'
-      outputs: {}
+            id: '40'
     - operation: Metric
       data:
         type: Metric
@@ -88,7 +78,7 @@
           - prediction
           - ground_truth
         user_unique_name: Accuracy
-      id: '30'
+      id: '38'
       inputs:
         prediction:
           - outputKey: feature_map
@@ -98,7 +88,7 @@
         ground_truth:
           - outputKey: gt
             operation: GroundTruth
-            id: '27'
+            id: '37'
       outputs: {}
     - operation: Visualizer
       data:
@@ -108,7 +98,7 @@
         arg_names:
           - data
         user_unique_name: pred
-      id: '31'
+      id: '39'
       inputs:
         data:
           - outputKey: feature_map
@@ -124,11 +114,27 @@
         arg_names:
           - data
         user_unique_name: gt
-      id: '32'
+      id: '40'
       inputs:
         data:
           - outputKey: gt
             operation: GroundTruth
-            id: '27'
+            id: '37'
+      outputs: {}
+    - operation: Visualizer
+      data:
+        type: Visualizer
+        name: Image
+        visualizer_name: Image
+        visualizer_type: Image
+        arg_names:
+          - data
+        user_unique_name: Image
+      id: '41'
+      inputs:
+        data:
+          - outputKey: input
+            operation: Input
+            id: '34'
       outputs: {}
   layers: []

@@ -7,10 +7,14 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.11"
-tensorflow = "2.13.0"
-code-loader = "^1.0.18"
+tensorflow = "2.12.0"
+code-loader = "^1.0.22"
 terminaltables = "^3.1.10"
 pyyaml = "^6.0.1"
+numba = "^0.58.1"
+tensorflow-addons = "^0.20.0"
+
+
 
 
 [build-system]

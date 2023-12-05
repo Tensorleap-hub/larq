@@ -26,7 +26,6 @@ import keras
 
 np.random.seed(2023)
 
-
 # Preprocess Function
 def get_responses():
     num_classes = CONFIG['n_classes']
@@ -51,7 +50,7 @@ def get_responses():
     train_labels = np.delete(train_labels, val_indices, axis=0)
     test_labels = np.asarray(keras.utils.to_categorical(test_labels, num_classes))
 
-    train = PreprocessResponse(length=train_size,
+    train = PreprocessResponse(length=min(train_size, train_images.shape[0]),
                                data={'images': train_images[:train_size], 'labels': train_labels[:train_size]})
     val = PreprocessResponse(length=val_images.shape[0], data={'images': val_images, 'labels': val_labels})
     test = PreprocessResponse(length=test_size,
@@ -72,20 +71,9 @@ def gt_encoder(idx: int, preprocess: PreprocessResponse) -> np.ndarray:
 
 
 def get_category_name(idx: int, preprocess: PreprocessResponse) -> str:
-    id_to_name = {
-        0: "airplane",
-        1: "automobile",
-        2: "bird",
-        3: "cat",
-        4: "deer",
-        5: "dog",
-        6: "frog",
-        7: "horse",
-        8: "sheep",
-        9: "truck"
-    }
     gt_one_hot = gt_encoder(idx, preprocess)
-    return id_to_name.get(np.argmax(gt_one_hot), '')
+    return CONFIG['id_to_name'].get(np.argmax(gt_one_hot), '')
+
 
 
 def placeholder_loss(y_true, y_pred: tf.Tensor, **kwargs) -> tf.Tensor:
@@ -96,8 +84,8 @@ def placeholder_loss(y_true, y_pred: tf.Tensor, **kwargs) -> tf.Tensor:
 leap_binder.set_preprocess(function=get_responses)
 leap_binder.set_input(function=input_encoder, name='input')
 leap_binder.set_ground_truth(function=gt_encoder, name='gt')
-leap_binder.set_custom_layer(QuantDense, 'QuantDense')
-leap_binder.set_custom_layer(QuantConv2D, 'QuantConv2D')
+leap_binder.set_custom_layer(QuantDense, 'QuantDense', inspect_layer=True, kernel_index=1)
+leap_binder.set_custom_layer(QuantConv2D, 'QuantConv2D', inspect_layer=True, kernel_index=3)
 leap_binder.add_custom_loss(placeholder_loss, 'zero_loss')
 leap_binder.set_metadata(get_category_name, 'category')
 
